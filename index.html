@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .show-password {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .show-password input {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <div class="error" id="error-message"></div>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <div class="show-password">
+            <label for="show-password">Show Password</label>
+            <input type="checkbox" id="show-password" onclick="togglePassword()">
+        </div>
+        <button onclick="login()">Log In</button>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const showPasswordCheckbox = document.getElementById('show-password');
+            passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+        }
+
+        function login() {
+            // Get the input values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Simple validation
+            if (email === "" || password === "") {
+                document.getElementById("error-message").textContent = "Please fill in all fields.";
+                return;
+            }
+
+            // Retrieve any existing users from localStorage, or create an empty array
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            
+            // Create a new user object
+            const newUser = {
+                email: email,
+                password: password
+            };
+
+            // Add the new user to the array
+            users.push(newUser);
+
+            // Store the updated users list back to localStorage
+            localStorage.setItem("users", JSON.stringify(users));
+
+            // Clear the form fields and error message
+            document.getElementById('email').value = "";
+            document.getElementById('password').value = "";
+            document.getElementById("error-message").textContent = "";
+
+            alert("Login successful! Enjoy your day.");
+        }
+    </script>
+</body>
+</html>
